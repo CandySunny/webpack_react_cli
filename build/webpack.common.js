@@ -4,21 +4,30 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
-    // mode: 'development',
     entry: {
         index: path.resolve(__dirname, '../src/index.js')
     },
-    // output: {
-    //     path: path.resolve(__dirname + '/dist'),
-    //     filename: '[name].[contenthash:8].js'
-    // },
     module: {
         rules: [
             {
-                test: /\.js/,
+                test: /\.js$/,
                 loader: 'babel-loader',
                 include: path.resolve(__dirname, '../src'),
                 exclude: path.resolve(__dirname, '../node_modules')
+            },
+            {
+                test: /\.css$/,
+                use: [
+                        'style-loader',
+                        {
+                            loader: 'css-loader',
+                            options: {
+                              modules: true,
+                              importLoaders: 1,
+                            },
+                        },
+                        'postcss-loader'
+                    ]
             }
         ]
     },
@@ -30,9 +39,4 @@ module.exports = {
             excludeChunks: ['node_modules']
         })
     ],
-    // devServer: {
-    //     open: true,
-    //     host: 'localhost',
-    //     port: 3000
-    // }
 }
